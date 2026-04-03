@@ -13,7 +13,7 @@ if not MAIN_TOKEN or not BOT_TOKEN:
 COUNT: int = 2100
 DEBUG_MODE: bool = False
 
-SERVERS = ["u1", "u2", "u3"]
+SERVERS = = ["u1", "u2", "u3", "u4"]
 
 
 class Almaz:
