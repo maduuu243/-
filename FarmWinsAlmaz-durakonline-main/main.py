@@ -24,8 +24,8 @@ class Almaz:
         main = durakonline.Client(MAIN_TOKEN, server_id=server_id, tag="[MAIN]", debug=DEBUG_MODE)
         bot = durakonline.Client(BOT_TOKEN, server_id=server_id, tag="[BOT]", debug=DEBUG_MODE)
 
-        game = bot.game.create(100, "1", 2, 52)
-        main.game.join("1", game.id)
+        game = bot.game.create(100, "2958", 2, 52)
+        main.game.join("2958", game.id)
         main._get_data("game")
 
         for i in range(count):
