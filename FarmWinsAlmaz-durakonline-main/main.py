@@ -24,8 +24,13 @@ class Almaz:
         main = durakonline.Client(MAIN_TOKEN, server_id=server_id, tag="[MAIN]", debug=DEBUG_MODE)
         bot = durakonline.Client(BOT_TOKEN, server_id=server_id, tag="[BOT]", debug=DEBUG_MODE)
 
+        # Создание игры
         game = bot.game.create(100, "2958", 2, 52)
+        time.sleep(1)  # ← пауза после создания
+
         main.game.join("2958", game.id)
+        time.sleep(1)  # ← пауза после входа
+
         main._get_data("game")
 
         for i in range(count):
@@ -50,20 +55,22 @@ class Almaz:
                 if mode["0"] == 1:
                     if bot_cards:
                         bot.game.turn(bot_cards[0])
-                    time.sleep(.1)
+                    time.sleep(0.1)
                     main.game.take()
-                    time.sleep(.1)
+                    time.sleep(0.1)
                     bot.game._pass()
                 else:
                     if main_cards:
                         main.game.turn(main_cards[0])
-                    time.sleep(.1)
+                    time.sleep(0.1)
                     bot.game.take()
-                    time.sleep(.1)
+                    time.sleep(0.1)
                     main.game._pass()
 
             bot.game.surrender()
             bot._get_data("game_over")
+
+            time.sleep(0.5)  # ← небольшая пауза между играми
 
         main.game.leave(game.id)
         self.log("Leave", server_id)
@@ -79,8 +86,11 @@ class Almaz:
 
 
 def run_process(server_id):
-    bot = Almaz()
-    bot.start_game(server_id, COUNT)
+    try:
+        bot = Almaz()
+        bot.start_game(server_id, COUNT)
+    except Exception as e:
+        print(f"[{server_id}] Process crashed: {e}")
 
 
 if __name__ == "__main__":
@@ -90,6 +100,7 @@ if __name__ == "__main__":
         p = multiprocessing.Process(target=run_process, args=(server,))
         p.start()
         processes.append(p)
+        time.sleep(2)  # ← пауза между запуском процессов
 
     for p in processes:
         p.join()
